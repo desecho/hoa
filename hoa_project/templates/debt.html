@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% load bootstrap_toolkit %}
+
+{% block content %}
+<h1 class="text-center">Долги</h1>
+
+
+{% if debts %}
+<table class="table">
+  <thead>
+    <tr>
+      <th>Номер договора</th>
+      <th>Долг</th>
+    </tr>
+  </thead>
+  <tbody>
+{% for debt in debts %}
+    <tr>
+        <td>{{ debt.0 }}</td>
+        <td>{{ debt.1 }}</td>
+    </tr>
+{% endfor %}
+  </tbody>
+</table>
+
+{% endif %}
+
+{% endblock %}

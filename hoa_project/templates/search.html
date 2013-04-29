@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% load bootstrap_toolkit %}
+
+{% block content %}
+<script>
+  function reset_form() {
+    $('#id_name').val('');
+    $('#id_address').val('');
+    $('#id_agreement').val('');
+  }
+</script>
+<h1 class="text-center">Поиск</h1>
+<form enctype="multipart/form-data" action="" method="POST" id="receipt" class="form-horizontal">
+  {% csrf_token %}
+  {{ form|as_bootstrap }}
+  <div class="control-group">
+    <div class="controls">
+        <input type="submit" value="Поиск" class="btn btn-primary">
+        <input type="button" value="Сбросить" onclick="reset_form()" class="btn">
+    </div>
+  </div>
+</form>
+
+{% if hoas %}
+<table class="table">
+  <thead>
+    <tr>
+      <th>Название</th>
+      <th>Местонахождение</th>
+      <th>Телефон</th>
+      <th>Ответственный</th>
+    </tr>
+  </thead>
+  <tbody>
+{% for hoa in hoas %}
+    <tr>
+        <td>{{ hoa.name }}</td>
+        <td>{{ hoa.location }}</td>
+        <td>{{ hoa.phone }}</td>
+        <td>{{ hoa.contact }}</td>
+    </tr>
+{% endfor %}
+  </tbody>
+</table>
+
+{% endif %}
+
+{% endblock %}

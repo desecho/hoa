@@ -1,0 +1,32 @@
+#loading {
+    background-image: url('../img/loading.gif');
+    display: none;
+    height: 48px;
+    position: absolute;
+    right: 0;
+    width: 48px;
+}
+
+.content {
+    margin: 40px 10px 0 10px;
+}
+
+.login-panel {
+    float: right;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
+.home-panel {
+    float: left;
+    position: absolute;
+    left: 10px;
+    top: 10px;
+}
+
+label.error {
+    color: #b94a48;
+    display: inline;
+    margin: 0;
+}
