@@ -64,6 +64,12 @@ def debt(request):
         else:
             return date2
 
+    def get_total_paid():
+        total_paid = Payment.objects.filter(agreement=agreement['pk']).aggregate(Sum('ammount')).values()[0]
+        if not total_paid:
+            total_paid = 0
+        return total_paid
+
     agreements = Agreement.objects.all().values('pk', 'date', 'ammount', 'number')
     today = count_months(datetime.today())
     start_date = datetime.date(datetime.strptime(settings.START_DATE, settings.FORMAT_DATE))
@@ -71,7 +77,7 @@ def debt(request):
     for agreement in agreements:
         date = biggest_date(agreement['date'], start_date)
         date = count_months(date)
-        total_paid = Payment.objects.filter(agreement=agreement['pk']).aggregate(Sum('ammount')).values()[0]
+        total_paid = get_total_paid()
         total_cost = (today - date) * agreement['ammount']
         debt = total_cost - total_paid
         if debt > 0:
