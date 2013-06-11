@@ -31,6 +31,7 @@
           <th>Местонахождение</th>
           <th>Телефон</th>
           <th>Ответственный</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -39,27 +40,27 @@
           <td>{{ hoa.location }}</td>
           <td>{{ hoa.phone }}</td>
           <td>{{ hoa.contact }}</td>
+          <td>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>№ договора</th>
+                    <th>Адрес</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for agreement in hoa.agreements %}
+                    <tr>
+                      <td>{{ agreement.number }}</td>
+                      <td>{{ agreement.address }}</td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+          </td>
         </tr>
       </tbody>
     </table>
-
-    <table class="table">
-      <thead>
-        <tr>
-          <th>№ договора</th>
-          <th>Адрес</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for agreement in hoa.agreements %}
-          <tr>
-            <td>{{ agreement.number }}</td>
-            <td>{{ agreement.address }}</td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-
   {% endfor %}
 {% endif %}
 
