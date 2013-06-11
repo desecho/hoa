@@ -23,27 +23,44 @@
 </form>
 
 {% if hoas %}
-<table class="table">
-  <thead>
-    <tr>
-      <th>Название</th>
-      <th>Местонахождение</th>
-      <th>Телефон</th>
-      <th>Ответственный</th>
-    </tr>
-  </thead>
-  <tbody>
-{% for hoa in hoas %}
-    <tr>
-        <td>{{ hoa.name }}</td>
-        <td>{{ hoa.location }}</td>
-        <td>{{ hoa.phone }}</td>
-        <td>{{ hoa.contact }}</td>
-    </tr>
-{% endfor %}
-  </tbody>
-</table>
+  {% for hoa in hoas %}
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Название</th>
+          <th>Местонахождение</th>
+          <th>Телефон</th>
+          <th>Ответственный</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{ hoa.name }}</td>
+          <td>{{ hoa.location }}</td>
+          <td>{{ hoa.phone }}</td>
+          <td>{{ hoa.contact }}</td>
+        </tr>
+      </tbody>
+    </table>
 
+    <table class="table">
+      <thead>
+        <tr>
+          <th>№ договора</th>
+          <th>Адрес</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for agreement in hoa.agreements %}
+          <tr>
+            <td>{{ agreement.number }}</td>
+            <td>{{ agreement.address }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+  {% endfor %}
 {% endif %}
 
 {% endblock %}

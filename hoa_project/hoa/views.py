@@ -2,16 +2,18 @@
 from django.shortcuts import redirect
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
-from annoying.decorators import ajax_request, render_to
+from annoying.decorators import render_to
 from hoa.forms import SearchForm
 from datetime import datetime
 from hoa.models import Hoa, Agreement, Address, Payment
 from django.db.models import Sum
 from django.conf import settings
 
+
 def logout_view(request):
     logout(request)
     return redirect('/login/')
+
 
 @render_to('index.html')
 @login_required
@@ -47,8 +49,16 @@ def search(request):
     form = SearchForm(request.POST or None)
     if form.is_valid():
         hoas = filter_results(form.cleaned_data['name'],
-                     form.cleaned_data['address'],
-                     form.cleaned_data['agreement'])
+                              form.cleaned_data['address'],
+                              form.cleaned_data['agreement']).values('pk', 'name', 'location', 'phone', 'contact')
+        for hoa in hoas:
+            agreements = Agreement.objects.filter(hoa_id=hoa['pk'])
+            hoa['agreements'] = []
+            for agreement in agreements:
+                addresses = Address.objects.filter(agreement=agreement)
+                addresses = [a.get_full_address() for a in addresses]
+                for address in addresses:
+                    hoa['agreements'].append({'number': agreement.number, 'address': address})
     return {'form': form, 'hoas': hoas}
 
 
@@ -65,22 +75,21 @@ def debt(request):
             return date2
 
     def get_total_paid():
-        total_paid = Payment.objects.filter(agreement=agreement['pk']).aggregate(Sum('ammount')).values()[0]
+        total_paid = Payment.objects.filter(agreement=agreement).aggregate(Sum('ammount')).values()[0]
         if not total_paid:
             total_paid = 0
         return total_paid
 
-    agreements = Agreement.objects.all().values('pk', 'date', 'ammount', 'number')
+    agreements = Agreement.objects.all()
     today = count_months(datetime.today())
     start_date = datetime.date(datetime.strptime(settings.START_DATE, settings.FORMAT_DATE))
     debts = []
     for agreement in agreements:
-        date = biggest_date(agreement['date'], start_date)
+        date = biggest_date(agreement.date, start_date)
         date = count_months(date)
         total_paid = get_total_paid()
-        total_cost = (today - date) * agreement['ammount']
+        total_cost = (today - date) * agreement.ammount
         debt = total_cost - total_paid
         if debt > 0:
-            debts.append((agreement['number'], debt))
+            debts.append((agreement.hoa.name, agreement.number, debt))
     return {'debts': debts}
-

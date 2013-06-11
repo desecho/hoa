@@ -4,12 +4,14 @@
 
 {% block content %}
 <h1 class="text-center">Долги</h1>
+<h3 class="text-right">(до {% now "1.m.y" %})</h3>
 
 
 {% if debts %}
 <table class="table">
   <thead>
     <tr>
+      <th>ТСЖ</th>
       <th>Номер договора</th>
       <th>Долг</th>
     </tr>
@@ -19,6 +21,7 @@
     <tr>
         <td>{{ debt.0 }}</td>
         <td>{{ debt.1 }}</td>
+        <td>{{ debt.2 }}</td>
     </tr>
 {% endfor %}
   </tbody>

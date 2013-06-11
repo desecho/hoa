@@ -13,7 +13,6 @@ class AgreementAdmin(NestedModelAdmin):
     inlines = [AddressInline]
 
 
-
 class AgreementInline(NestedTabularInline):
     model = Agreement
     can_delete = False
