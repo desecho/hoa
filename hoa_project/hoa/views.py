@@ -80,7 +80,7 @@ def debt(request):
             total_paid = 0
         return total_paid
 
-    agreements = Agreement.objects.all()
+    agreements = Agreement.objects.exclude(deleted=True)
     today = count_months(datetime.today())
     start_date = datetime.date(datetime.strptime(settings.START_DATE, settings.FORMAT_DATE))
     debts = []
