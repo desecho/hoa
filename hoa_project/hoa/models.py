@@ -62,6 +62,7 @@ class Address(models.Model):
     street = models.CharField('улица', max_length=255)
     house = models.CharField('дом', max_length=255)
     number_of_points = models.IntegerField('количество точек', default=1)
+    comment = models.CharField('комментарий', max_length=255, null=True, blank=True)
 
     class Meta:
         verbose_name = 'адрес'
