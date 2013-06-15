@@ -9,7 +9,7 @@ class AddressInline(NestedTabularInline):
 
 
 class AgreementAdmin(NestedModelAdmin):
-    list_display = ['number', 'ammount', 'date', 'comment', 'deleted']
+    list_display = ['number', 'ammount', 'date_start', 'comment', 'date_end']
     inlines = [AddressInline]
 
 

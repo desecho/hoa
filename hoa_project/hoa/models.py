@@ -42,12 +42,12 @@ class AgreementPeriod(models.Model):
 class Agreement(models.Model):
     hoa = models.ForeignKey(Hoa, verbose_name='ТСЖ')
     number = models.CharField('номер', max_length=255)
-    ammount = models.IntegerField('сумма')
-    date = models.DateField('дата')
+    ammount = models.DecimalField('сумма', max_digits=7, decimal_places=2)
+    date_start = models.DateField('дата заключения договора')
     period = models.ForeignKey(AgreementPeriod, verbose_name='период')
     type = models.ForeignKey(AgreementType, verbose_name='тип')
     comment = models.CharField('комментарий', max_length=255, null=True, blank=True)
-    deleted = models.BooleanField('удален')
+    date_end = models.DateField('дата расторжения договора', null=True, blank=True)
 
     class Meta:
         verbose_name = 'договор'
@@ -77,7 +77,7 @@ class Address(models.Model):
 
 class Payment(models.Model):
     agreement = models.ForeignKey(Agreement, verbose_name='договор')
-    ammount = models.IntegerField('сумма, мес.')
+    ammount = models.DecimalField('сумма, мес.', max_digits=7, decimal_places=2)
     date = models.DateField('дата')
     period_start = models.DateField('дата начала периода')
     period_end = models.DateField('дата конца периода')
