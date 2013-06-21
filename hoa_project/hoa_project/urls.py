@@ -11,6 +11,7 @@ urlpatterns = patterns(
     url(r'^logout/$', 'hoa.views.logout_view'),
     url(r'^search/$', 'hoa.views.search'),
     url(r'^debt/$', 'hoa.views.debt'),
+    url(r'^info/$', 'hoa.views.info'),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),

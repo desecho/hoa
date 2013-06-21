@@ -98,3 +98,10 @@ def debt(request):
         if debt > 0:
             debts.append((agreement.hoa.name, agreement.number, debt))
     return {'debts': debts}
+
+
+@render_to('info.html')
+@login_required
+def info(request):
+    total_monthly = Agreement.objects.filter(date_end=None).aggregate(Sum('ammount')).values()[0]
+    return {'total_monthly': total_monthly}
