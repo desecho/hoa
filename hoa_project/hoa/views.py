@@ -85,6 +85,7 @@ def debt(request):
     today = count_months(datetime.today())
     start_date = datetime.date(datetime.strptime(settings.START_DATE, settings.FORMAT_DATE))
     debts = []
+    total = 0
     for agreement in agreements:
         date = biggest_date(agreement.date_start, start_date)
         if agreement.date_end is not None:
@@ -97,7 +98,8 @@ def debt(request):
         debt = total_cost - total_paid
         if debt > 0:
             debts.append((agreement.hoa.name, agreement.number, debt))
-    return {'debts': debts}
+            total += debt
+    return {'debts': debts, 'total': total}
 
 
 @render_to('info.html')
