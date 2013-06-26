@@ -4,7 +4,10 @@
 {% block content %}
 
 <h3><a href="/search">Поиск</a></h3>
-<h3><a href="/debt">Долги</a></h3>
-<h3><a href="/info">Инфо</a></h3>
+
+% if perms.hoa %}
+    <h3><a href="/debt">Долги</a></h3>
+    <h3><a href="/info">Инфо</a></h3>
+{% endif %}
 
 {% endblock %}
