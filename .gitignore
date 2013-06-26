@@ -6,6 +6,7 @@ hoa_project/hoa_project/secret.py
 # C extensions
 *.so
 
+.DS_Store
 # Packages
 *.egg
 *.egg-info
