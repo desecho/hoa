@@ -51,7 +51,7 @@
                 <tbody>
                   {% for agreement in hoa.agreements %}
                     <tr>
-                      <td>{{ agreement.number }} ({{ agreement.type }})</td>
+                      <td>{{ agreement.number }} ({{ agreement.type }} / {{ agreement.ammount }})</td>
                       <td>{{ agreement.address }} ({{ agreement.number_of_points }})</td>
                     </tr>
                   {% endfor %}
