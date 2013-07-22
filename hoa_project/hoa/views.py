@@ -57,9 +57,8 @@ def search(request):
             hoa['agreements'] = []
             for agreement in agreements:
                 addresses = Address.objects.filter(agreement=agreement)
-                addresses = [a.get_full_address() for a in addresses]
                 for address in addresses:
-                    hoa['agreements'].append({'number': agreement.number, 'address': address})
+                    hoa['agreements'].append({'type': agreement.type, 'number': agreement.number, 'address': address.get_full_address(), 'number_of_points': address.number_of_points})
     return {'form': form, 'hoas': hoas}
 
 
