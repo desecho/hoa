@@ -1,6 +1,7 @@
 #HOA
 
-The web application for ISP HOA accounting. The interface is in Russian.
+The web application on Python2/Django/jQuery for ISP HOA accounting.
+It’s used by one of the local ISP companies in Russia. The interface is in Russian.
 
 ##Required packages
 

@@ -7,7 +7,8 @@ class Hoa(models.Model):
     location = models.CharField('местонахождение', max_length=255)
     phone = models.CharField('телефон', max_length=255)
     contact = models.CharField('ответственный', max_length=255)
-    comment = models.CharField('комментарий', max_length=255, null=True, blank=True)
+    comment = models.CharField('комментарий', max_length=255, null=True,
+                               blank=True)
 
     class Meta:
         verbose_name = 'ТСЖ'
@@ -46,8 +47,10 @@ class Agreement(models.Model):
     date_start = models.DateField('дата заключения договора')
     period = models.ForeignKey(AgreementPeriod, verbose_name='период')
     type = models.ForeignKey(AgreementType, verbose_name='тип')
-    comment = models.CharField('комментарий', max_length=255, null=True, blank=True)
-    date_end = models.DateField('дата расторжения договора', null=True, blank=True)
+    comment = models.CharField('комментарий', max_length=255, null=True,
+                               blank=True)
+    date_end = models.DateField('дата расторжения договора', null=True,
+                                blank=True)
 
     class Meta:
         verbose_name = 'договор'
@@ -62,7 +65,8 @@ class Address(models.Model):
     street = models.CharField('улица', max_length=255)
     house = models.CharField('дом', max_length=255)
     number_of_points = models.IntegerField('количество точек', default=1)
-    comment = models.CharField('комментарий', max_length=255, null=True, blank=True)
+    comment = models.CharField('комментарий', max_length=255, null=True,
+                               blank=True)
 
     class Meta:
         verbose_name = 'адрес'
@@ -81,7 +85,8 @@ class Payment(models.Model):
     date = models.DateField('дата')
     period_start = models.DateField('дата начала периода')
     period_end = models.DateField('дата конца периода')
-    comment = models.CharField('комментарий', max_length=255, null=True, blank=True)
+    comment = models.CharField('комментарий', max_length=255, null=True,
+                               blank=True)
 
     class Meta:
         verbose_name = 'оплата'

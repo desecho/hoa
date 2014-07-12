@@ -26,7 +26,8 @@ class HoaAdmin(NestedModelAdmin):
 
 
 class PaymentAdmin(admin.ModelAdmin):
-    list_display = ['agreement', 'ammount', 'date', 'period_start', 'period_end', 'comment']
+    list_display = ['agreement', 'ammount', 'date', 'period_start',
+                    'period_end', 'comment']
 
 
 admin.site.register(Hoa, HoaAdmin)

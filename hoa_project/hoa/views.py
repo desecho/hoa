@@ -8,7 +8,7 @@ from datetime import datetime
 from hoa.models import Hoa, Agreement, Address, Payment
 from django.db.models import Sum
 from django.conf import settings
-import chromelogger as console
+#import chromelogger as console
 
 
 def logout_view(request):
@@ -35,13 +35,16 @@ def search(request):
             results = Hoa.objects.all()
         if address:
             where = 'CONCAT(`street`, " ", `house`) LIKE "%%' + address + '%%"'
-            agreements = Address.objects.all().extra(where=[where]).values_list('agreement')
+            agreements = Address.objects.all().extra(
+                where=[where]).values_list('agreement')
             agreements = process_result(agreements)
-            hoas = Agreement.objects.filter(pk__in=agreements).values_list('hoa')
+            hoas = Agreement.objects.filter(
+                pk__in=agreements).values_list('hoa')
             hoas = process_result(hoas)
             results = results.filter(pk__in=hoas)
         if agreement:
-            hoas = Agreement.objects.filter(number__icontains=agreement).values_list('hoa')
+            hoas = Agreement.objects.filter(
+                number__icontains=agreement).values_list('hoa')
             hoas = process_result(hoas)
             results = results.filter(pk__in=hoas)
         results = results.order_by('name')
@@ -51,14 +54,20 @@ def search(request):
     if form.is_valid():
         hoas = filter_results(form.cleaned_data['name'],
                               form.cleaned_data['address'],
-                              form.cleaned_data['agreement']).values('pk', 'name', 'location', 'phone', 'contact')
+                              form.cleaned_data['agreement']).values(
+                                  'pk', 'name', 'location', 'phone', 'contact')
         for hoa in hoas:
             agreements = Agreement.objects.filter(hoa_id=hoa['pk'])
             hoa['agreements'] = []
             for agreement in agreements:
                 addresses = Address.objects.filter(agreement=agreement)
                 for address in addresses:
-                    hoa['agreements'].append({'ammount': agreement.ammount, 'type': agreement.type, 'number': agreement.number, 'address': address.get_full_address(), 'number_of_points': address.number_of_points})
+                    hoa['agreements'].append(
+                        {'ammount': agreement.ammount,
+                         'type': agreement.type,
+                         'number': agreement.number,
+                         'address': address.get_full_address(),
+                         'number_of_points': address.number_of_points})
     return {'form': form, 'hoas': hoas}
 
 
@@ -75,14 +84,16 @@ def debt(request):
             return date2
 
     def get_total_paid():
-        total_paid = Payment.objects.filter(agreement=agreement).aggregate(Sum('ammount')).values()[0]
+        total_paid = Payment.objects.filter(
+            agreement=agreement).aggregate(Sum('ammount')).values()[0]
         if not total_paid:
             total_paid = 0
         return total_paid
 
     agreements = Agreement.objects.all()
     today = count_months(datetime.today())
-    start_date = datetime.date(datetime.strptime(settings.START_DATE, settings.FORMAT_DATE))
+    start_date = datetime.date(datetime.strptime(settings.START_DATE,
+                               settings.FORMAT_DATE))
     debts = []
     total = 0
     for agreement in agreements:
@@ -104,5 +115,6 @@ def debt(request):
 @render_to('info.html')
 @login_required
 def info(request):
-    total_monthly = Agreement.objects.filter(date_end=None).aggregate(Sum('ammount')).values()[0]
+    total_monthly = Agreement.objects.filter(
+        date_end=None).aggregate(Sum('ammount')).values()[0]
     return {'total_monthly': total_monthly}
